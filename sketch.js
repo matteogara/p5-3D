@@ -1,25 +1,41 @@
 let audio;
 let playPauseButton;
+let customCylinder;
 
 function preload() {
   audio = loadSound('assets/audio.mp3');
 }
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(windowWidth, windowHeight, WEBGL);
+  customCylinder = new CustomCylinder(40, 200, 64);
   createAudioControls();
 }
 
-const bins = 256;
-const smoothingFactor = 0.02;
+const bins = 32;
+const smoothingFactor = 0.01;
 
 function draw() {
   background(220);
 
+  // ambientLight(100);
+  // directionalLight(255, 255, 255, 0, 1, 1);
+  // pointLight(255, 0, 0, 0, -150, 0);
+  // spotLight(255, 0, 0, 0, 0, 800, 0, 0, -1, PI / 32);
+  
+
+  // fill(100, 150, 255);
+  // noStroke();
+  // cylinder(100, 200);
+  orbitControl();
+
   if (audio && audio.isLoaded() && audio.isPlaying()) {
     const spectrum = getLogSpectrum(audio, bins, width, smoothingFactor);
-    drawAudioSpectrum(spectrum);
+    customCylinder.storeSpectrum(spectrum);
   }
+
+  // Disegna sempre il cilindro personalizzato
+  customCylinder.draw();
 }
 
 function drawAudioSpectrum(spectrum = []) {
