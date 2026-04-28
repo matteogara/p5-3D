@@ -73,3 +73,12 @@ function toggleAudioPlayback() {
     playPauseButton.html('Play audio');
   }
 }
+
+function keyPressed() {
+  if (key === ' ') {
+    // Esporta il cilindro in STL quando viene premuta la barra spaziatrice
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const filename = `customCylinder_${timestamp}.stl`;
+    exportCylinderToSTL(customCylinder, filename);
+  }
+}
